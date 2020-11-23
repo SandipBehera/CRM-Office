@@ -1,6 +1,7 @@
 @php
     use App\Models\LeadsComment;
     use App\Models\Employee;
+    $date=date_default_timezone_set('Asia/Kolkata');
 @endphp
 @extends('layouts.adminlayout.admin_design')
 @section('content')
@@ -156,7 +157,7 @@
                                         </table>
                                     </div>
                                     <div class="tab-pane" id="tab-animated1-1" role="tabpanel">
-                                        <table style="width: 100%;" class="mb-0 table">
+                                        <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered" data-sort-order="desc">
                                             <thead>
                                             <tr>
                                                 <th>Id</th>
@@ -165,6 +166,7 @@
                                                 <th>Assign To</th>
                                                 <th>Status</th>
                                                 <th>Assigned Date</th>
+
                                                 <th>Comment</th>
                                             </tr>
                                             </thead>
@@ -201,6 +203,7 @@
                                                     <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">{{$item_follow_up->status}}</a></td>
                                                 @endif
                                                 <td><a href="javascript:void(0)" id="Add_to_db_" >{{$item_follow_up->assigned_date}}</a></td>
+
                                                 <td>
                                                     @if(!empty($comments))
                                                     @php
@@ -208,6 +211,7 @@
                                                     @endphp
                                                     @foreach ($comments as $item_follow_up_comments)
                                                     {{$j++}}. {{$item_follow_up_comments->comment}}
+                                                    updated date:{{$item_follow_up->created_at}}
                                                     @endforeach
                                                     @else
                                                     Did Not speak
