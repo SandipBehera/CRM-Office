@@ -1,3 +1,8 @@
+@php
+    use App\Models\Employee;
+    use App\Models\Leads;
+    $i=1;
+@endphp
 @extends('layouts.adminlayout.admin_design')
 @section('content')
 <div class="app-main__outer">
@@ -66,6 +71,89 @@
                             <div class="widget-content-right">
                                 <div class="widget-numbers text-warning"><span>$14M</span></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-header">Lead Status
+                            <div class="btn-actions-pane-right">
+                                <div role="group" class="btn-group-sm btn-group">
+                                    <button class="active btn btn-focus">Last Week</button>
+                                    <button class="btn btn-focus">All Month</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">sl no.</th>
+                                        <th>Project Name</th>
+                                        @foreach ($leadReport as $item_report)
+                                                @php
+                                                    $employee_name=Employee::where(['employee_id'=>$item_report->asssigned_to])->first();
+                                                @endphp
+                                                <th>{{$employee_name->name}}</th>
+                                        @endforeach
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($allProperty as $item_property)
+                                    @php
+                                        $fetch_proprety_in_leads=Leads::where('leads_for','LIKE','%'.$item_property->property_name.'%')->get();
+
+                                    @endphp
+
+                                    <tr>
+                                        <td class="text-center text-muted">{{$i++}}</td>
+                                        <td>{{$item_property->property_name}}</td>
+                                            @foreach ($leadReport as $item_lead_report)
+                                            @php
+                                                    $employee_name=Employee::where(['employee_id'=>$item_lead_report->asssigned_to])->first();
+                                                @endphp
+                                            {{-- <td>
+                                                <ul class="vertical-nav-menu">
+                                                <li>New:{{$fetch_proprety_in_leads->where('status','=','NEW')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>Inprocess:{{$fetch_proprety_in_leads->where('status','=','Inprocess')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>FollowUps:{{$fetch_proprety_in_leads->where('status','=','follow up')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>Site Visit Initate:{{$fetch_proprety_in_leads->where('status','=','site visit Initate')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>Site Visit Done:{{$fetch_proprety_in_leads->where('status','=','site visit Done')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>Negotiation:{{$fetch_proprety_in_leads->where('status','=','negotiation')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>Closed:{{$fetch_proprety_in_leads->where('status','=','closed')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                <li>Dead:{{$fetch_proprety_in_leads->where('status','=','dead')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
+                                                </ul>
+                                            </td> --}}
+                                            <td class="text-left" style="width: 200px;">
+                                                <div class="pie-sparkline">{{$fetch_proprety_in_leads->where('status','=','NEW')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','Inprocess')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','follow up')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','site visit Initate')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','site visit Done')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','negotiation')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','closed')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','dead')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</div>
+                                            </td>
+                                            @endforeach
+
+                                        <td>
+                                            <p>New:{{$fetch_proprety_in_leads->where('status','=','Inprocess')->count()}}</p>
+                                            </td>
+                                        <td class="text-center">
+                                            <div class="badge badge-warning">Pending</div>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button type="button" id="PopoverCustomT-1"
+                                                class="btn btn-primary btn-sm">Details</button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-block text-center card-footer">
+                            <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
+                                <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                            </button>
+                            <button class="btn-wide btn btn-success">Save</button>
                         </div>
                     </div>
                 </div>
@@ -725,158 +813,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="main-card mb-3 card">
-                        <div class="card-header">Active Users
-                            <div class="btn-actions-pane-right">
-                                <div role="group" class="btn-group-sm btn-group">
-                                    <button class="active btn btn-focus">Last Week</button>
-                                    <button class="btn btn-focus">All Month</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>Name</th>
-                                        <th class="text-center">City</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Sales</th>
-                                        <th class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center text-muted">#345</td>
-                                        <td>
-                                            <div class="widget-content p-0">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left mr-3">
-                                                        <div class="widget-content-left">
-                                                            <img width="40" class="rounded-circle" src="assets/images/avatars/4.jpg" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="widget-content-left flex2">
-                                                        <div class="widget-heading">John Doe</div>
-                                                        <div class="widget-subheading opacity-7">Web Developer</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">Madrid</td>
-                                        <td class="text-center">
-                                            <div class="badge badge-warning">Pending</div>
-                                        </td>
-                                        <td class="text-center" style="width: 150px;">
-                                            <div class="pie-sparkline">2,4,6,9,4</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" id="PopoverCustomT-1"
-                                                class="btn btn-primary btn-sm">Details</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center text-muted">#347</td>
-                                        <td>
-                                            <div class="widget-content p-0">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left mr-3">
-                                                        <div class="widget-content-left">
-                                                            <img width="40" class="rounded-circle" src="assets/images/avatars/3.jpg" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="widget-content-left flex2">
-                                                        <div class="widget-heading">Ruben Tillman</div>
-                                                        <div class="widget-subheading opacity-7">Etiam sit amet orci eget</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">Berlin</td>
-                                        <td class="text-center">
-                                            <div class="badge badge-success">Completed</div>
-                                        </td>
-                                        <td class="text-center" style="width: 150px;">
-                                            <div id="sparkline-chart4"></div>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" id="PopoverCustomT-2"
-                                                class="btn btn-primary btn-sm">Details</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center text-muted">#321</td>
-                                        <td>
-                                            <div class="widget-content p-0">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left mr-3">
-                                                        <div class="widget-content-left">
-                                                            <img width="40" class="rounded-circle" src="assets/images/avatars/2.jpg" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="widget-content-left flex2">
-                                                        <div class="widget-heading">Elliot Huber</div>
-                                                        <div class="widget-subheading opacity-7">Lorem ipsum dolor sic
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">London</td>
-                                        <td class="text-center">
-                                            <div class="badge badge-danger">In Progress</div>
-                                        </td>
-                                        <td class="text-center" style="width: 150px;">
-                                            <div id="sparkline-chart8"></div>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" id="PopoverCustomT-3" class="btn btn-primary btn-sm">Details</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center text-muted">#55</td>
-                                        <td>
-                                            <div class="widget-content p-0">
-                                                <div class="widget-content-wrapper">
-                                                    <div class="widget-content-left mr-3">
-                                                        <div class="widget-content-left">
-                                                            <img width="40" class="rounded-circle" src="assets/images/avatars/1.jpg" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="widget-content-left flex2">
-                                                        <div class="widget-heading">Vinnie Wagstaff</div>
-                                                        <div class="widget-subheading opacity-7">UI Designer</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">Amsterdam</td>
-                                        <td class="text-center">
-                                            <div class="badge badge-info">On Hold</div>
-                                        </td>
-                                        <td class="text-center" style="width: 150px;">
-                                            <div id="sparkline-chart9"></div>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" id="PopoverCustomT-4"
-                                                class="btn btn-primary btn-sm">Details</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-block text-center card-footer">
-                            <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
-                                <i class="pe-7s-trash btn-icon-wrapper"> </i>
-                            </button>
-                            <button class="btn-wide btn btn-success">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="text-center mb-3">
                 <h5 class="menu-header-title text-capitalize mb-3 fsize-3">Profile Cards</h5>
                 <div role="group" class="mb-3 btn-group-lg btn-group">

@@ -145,7 +145,7 @@ public function Leadstatus(Request $req,$id){
     //Employee assign today data list
     public function todayemployeeassign(Request $req){
         $today_assign_employee_list=Leads::where('assigned_date',date('Y-m-d'))->get();
-
+        $Assigned_leads=Leads::where('leads_for','LIKE','%'.$req->session()->get('department').'%')->get();
         return view('manager-portal.lead_data.today_assign_lead_data')->with(compact('today_assign_employee_list','Assigned_leads'));
     }
     // Follow Up Leads Converted by telecallers

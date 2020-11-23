@@ -164,7 +164,7 @@
                                         <tbody>
                                             @foreach ($employee_from_department as $item_today_assign)
                                                @php
-                                                   $employee_lead_count=Leads::where('asssigned_to','=',$item_today_assign->employee_id)->where('assigned_date','!=',date('Y-m-d'))->get();
+                                                   $employee_lead_count=Leads::where('asssigned_to','=',$item_today_assign->employee_id)->where('assigned_date','!=',date('Y-m-d'))->where(['status'=>'Assigned','status'=>'New'])->get();
                                                @endphp
                                                <tr>
                                                 <td>{{$j++}}</td>

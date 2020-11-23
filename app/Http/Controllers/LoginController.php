@@ -11,6 +11,8 @@ use App\Models\Properties;
 use App\Models\LeadTransfer;
 use App\Models\Attendence;
 use FacebookAds\Object\Lead;
+use phpDocumentor\Reflection\Types\Null_;
+use PhpParser\Builder\Property;
 
 class LoginController extends Controller
 {
@@ -67,8 +69,10 @@ class LoginController extends Controller
 
         $allleads=Leads::count();
         $allproperties=Properties::count();
+        $leadReport=Leads::where('assigned_date','!=',Null)->groupBy('asssigned_to')->get();
+        $allProperty=Properties::where('active','!=',0)->get();
 
-        return view('admin.dashboard.dashboard')->with(compact('allleads','allproperties'));
+        return view('admin.dashboard.dashboard')->with(compact('allleads','allproperties','leadReport','allProperty'));
 
     }
     public function employeedashboard(Request $req){

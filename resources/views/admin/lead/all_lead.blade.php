@@ -65,7 +65,9 @@
                                         @endif
 
                                         @if ($item->status!=null)
-                                        <td>{{$item->status}}</td>
+                                        <td class="text-center">
+                                        <button type="button" id="PopoverCustomT-1"
+                                            class="btn btn-primary btn-sm">{{$item->status}}</button></td>
                                         @else
                                         <td>
                                             <select name="update_status" class="form-control-sm form-control" >

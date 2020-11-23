@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Middleware\Contropanellogin;
 use App\Http\Controllers\AminitiesController;
 use App\Http\Controllers\FrontentController;
+use App\Http\Controllers\TaskScheudler;
 use Maatwebsite\Excel\Row;
 
 /*
@@ -62,6 +63,9 @@ Route::match(['get','post'],'/crm-employee/attendence',[EmployeeController::clas
 Route::get('/crm-manager/dashboard',[LoginController::class,'managerdashboard'])->middleware(Contropanellogin::class);
 Route::get('/crm-manager/today-assign',[LeadController::class,'todayemployeeassign'])->middleware(Contropanellogin::class);
 Route::get('/crm-manager/follow-up-assign',[LeadController::class,'followupleadsbyemployee'])->middleware(Contropanellogin::class);
+
+//Task Controller
+Route::get('/admin/task-data',[TaskScheudler::class,'index'])->middleware(Contropanellogin::class);
 //frontend Controller
 Route::match(['get', 'post'], '/admin/Frontend/banner',[FrontentController::class,'banners'])->middleware(Contropanellogin::class);
 Route::post('/prior',[FrontentController::class,'priorbanner'])->middleware(Contropanellogin::class);

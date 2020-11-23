@@ -48,7 +48,7 @@
                             <div class="widget-content-left">
                                 <div class="btn-group">
                                     <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                        <img width="60" class="rounded-circle" src="{{asset('images/employee_image/'.Session::get('proflie_image').'')}}" alt="">
+                                        <img width="30" class="rounded-circle" src="{{asset('images/employee_image/'.Session::get('proflie_image').'')}}" alt="">
                                         <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                     </a>
                                     <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">

@@ -12,8 +12,11 @@
 
 <link href="{{asset('css/main.css')}}" rel="stylesheet">
 <script type="text/javascript" src="{{asset('js/main.js')}}"></script>
+
 <script src="https://cdn.tiny.cloud/1/thkq9jaj3afe8qqsrv45ufl3gh7cqyzvs9tclfh9zcugqog0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 

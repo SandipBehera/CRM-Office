@@ -148,7 +148,26 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="app-sidebar__heading">Task Scheduler</li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-news-paper"></i>Task Scheduler
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{{url('/admin/task-data')}}" >
+                                    <i class="metismenu-icon"></i>Tasks
+                                </a>
+                        </li>
+                        <li>
+                            <a href="{{url('/crm-employee/overdue-leads')}}" >
+                                    <i class="metismenu-icon"></i>Update Tasks
+                                </a>
+                        </li>
+                        </ul>
+                    </li>
+                </li>
             </ul>
         </div>
     </div>

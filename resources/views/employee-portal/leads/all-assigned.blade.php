@@ -32,11 +32,10 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Name</th>
-                                        <th>email</th>
-                                        <th>mobile</th>
                                         <th>Project Name</th>
+                                        <th>Assigned Date</th>
                                         <th>status</th>
-                                        <th>Comment</th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -49,24 +48,25 @@
                                          @endphp
                                         <tr>
                                         <td>{{$i++}}</td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->name}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->email_id}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->phone}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->leads_for}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->status}}</a></td>
-                                        @if (!empty($leads_comment))
-                                        <td>
-                                            @php
-                                                $j=1;
-                                            @endphp
-                                            @foreach ($leads_comment as $item_comment)
-
-                                            {{$j++}}. {{$item_comment->comment}}<br>
-                                            @endforeach
-                                        </td>
+                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color:black;font-weight:500">{{$item->name}}</a></td>
+                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color:black;font-weight:500">{{$item->leads_for}}</a></td>
+                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color:black;font-weight:500">{{$item->assigned_date}}</a></td>
+                                        @if ($item->status=='NEW' && $item->status!=date('Y-m-d'))
+                                        <td class="text-center btn-danger"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Over Due</a></td>
+                                        @elseif ($item->status=='follow up')
+                                        <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Follow Up</a></td>
+                                        @elseif ($item->status=='site visit Initate')
+                                        <td class="text-center bg-malibu-beach" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Initate</a></td>
+                                        @elseif ($item->status=='site visit Done')
+                                        <td class="text-center bg-ripe-malin" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                        @elseif ($item->status=='closed')
+                                        <td class="text-center bg-grow-early" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                        @elseif ($item->status=='dead')
+                                        <td class="text-center btn-gradient-focus" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
                                         @else
-                                        <td><p>No progress</p></td>
-                                        @endif
+                                            <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">{{$item->status}}</a></td>
+                                            @endif
+
                                         </tr>
                                         <script>
                                             $(document).on('click','#Add_to_db_{{$item->id}}',function(){
