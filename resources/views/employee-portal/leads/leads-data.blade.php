@@ -100,14 +100,18 @@
                             <div class="form-row" id='closed_form'>
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
-                                    <label for="exampleEmail11" class="">Booking Registered Name</label>
-                                    <input type="text" class="form-control" name="client_name"  autocomplete="off">
+                                    <label for="exampleEmail11" class="">Booking Registered Name <a href="javascript:void(0)" style="padding-left:20px " id="edit_name">Edit</a></label>
+                                    <div id="booked_person_name">
+
+                                    </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="position-relative form-group">
-                                    <label for="exampleEmail11" class="">Property Name</label>
-                                    <input type="text" class="form-control" name="booked_porp_name"  autocomplete="off">
+                                    <div class="position-relative form-group" id="">
+                                    <label for="exampleEmail11" class="">Property Name <a href="javascript:void(0)" style="padding-left:20px " id="edit_property">Edit</a></label>
+                                        <div id="propety_entry">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -191,6 +195,7 @@
                 $('#lead_s_visit').hide();
                 $('#description').hide();
                 $('#closed_form').show();
+
             }
             else{
                 $('#lead_s_visit').hide();
@@ -201,6 +206,35 @@
         });
         $("#lead_status").trigger("change");
         </script>
+<script>
+    //change the property to input tag to select tag
+    function getTxtBox(){
+        return '<input type="text" class="form-control" name="booked_porp_name" value="{{Session::get("project_name")}}"  id="lead_property" readonly>';
+    }
+    function getSltBox(){
+        return['<select name="booked_porp_name" class="form-control" id="select_property">',
+                                    @foreach ($property_list as $item_property)
+                                    '<option value="Keyonproperties-{{$item_property->property_name}}">{{$item_property->property_name}}</option>',
+                                    @endforeach
+                                    '</select>'].join('');
+    }
+    $('#propety_entry').html(getTxtBox());
+    $(document).on('click','#edit_property',function(){
+        $('#propety_entry').html(getSltBox());
 
+    });
+ //change the property to input readonly tag to input tag
+ function getInxtBox(){
+        return '<input type="text" class="form-control" name="client_name" value="{{$lead_details->name}}"  readonly>';
+    }
+    function getNewTxtBox(){
+        return'<input type="text" class="form-control" name="client_name" >';
+    }
+    $('#booked_person_name').html(getInxtBox());
+    $(document).on('click','#edit_name',function(){
+        $('#booked_person_name').html(getNewTxtBox());
+
+    });
+    </script>
 
 @endsection

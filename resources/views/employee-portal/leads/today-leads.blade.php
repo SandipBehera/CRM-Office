@@ -129,7 +129,8 @@
                                                                 "_token":"{{csrf_token()}}",
                                                                 "lead_id":lead_id,
                                                                 'emp_id':"{{Session::get('profile_id')}}",
-                                                                'status':"{{$item->status}}"
+                                                                'status':"{{$item->status}}",
+                                                                'project_name':"{{$item->leads_for}}"
                                                             },
                                                             success:function(res){
                                                                 if(res){
@@ -202,7 +203,8 @@
                                                                 "_token":"{{csrf_token()}}",
                                                                 "lead_id":lead_id,
                                                                 'emp_id':"{{Session::get('profile_id')}}",
-                                                                'status':"{{$item->status}}"
+                                                                'status':"{{$item->status}}",
+                                                                'project_name':"{{$item->leads_for}}"
                                                             },
                                                             success:function(res){
                                                                 if(res){

@@ -18,6 +18,8 @@ use FacebookAds\Logger\CurlLogger;
 use FacebookAds\Object\Page;
 use FacebookAds\Object\Ad;
 use App\Models\LeadTransfer;
+use App\Models\Properties;
+use FacebookAds\Session;
 use Illuminate\Support\Facades\DB;
 
 class LeadController extends Controller
@@ -72,7 +74,7 @@ public function Leadstatus(Request $req,$id){
         $leads_comment->comment=$data['comments'];
         }
         else{
-            $leads_comment->comment='Property Have Been closed';
+            $leads_comment->comment='Property Have Been closed in:'.$data['booked_porp_name'].'By:'.session()->get('username');
         }
         $leads_comment->location='';
         $leads_comment->save();
@@ -108,7 +110,8 @@ public function Leadstatus(Request $req,$id){
     $leads_comments=LeadsComment::where('lead_id',$id)->get();
     $leads_comments_count=LeadsComment::where('lead_id',$id)->count();
     $site_visit_employee_all=Employee::where('permission','like','%Site Visit%')->get();
-    return view('employee-portal.leads.leads-data')->with(compact('lead_details','leads_comments','leads_comments_count','site_visit_employee_all'));
+    $property_list=Properties::where('active','=','1')->get();
+    return view('employee-portal.leads.leads-data')->with(compact('lead_details','leads_comments','leads_comments_count','site_visit_employee_all','property_list'));
     }
     //overdue leads list
     public function overduepick(Request $req){
@@ -126,6 +129,7 @@ public function Leadstatus(Request $req,$id){
         $data->lead_id=$reqed->lead_id;
         $data->status=$reqed->status;
         $data->created_at=date('Y-m-d');
+        Session()->put('project_name',$reqed->project_name);
         $data->save();
         if($reqed->status=='New' ||$reqed->status=='Assigned' ){
             Leads::where(['id'=>$reqed->lead_id])->update(['status'=>'pickedup']);
@@ -140,6 +144,7 @@ public function Leadstatus(Request $req,$id){
         $data->status=$reqed->status;
         $data->created_at=date('Y-m-d');
         $data->save();
+            Session()->put('project_name',$reqed->project_name);
         if($reqed->status=='New' ||$reqed->status=='Assigned' ){
         Leads::where(['id'=>$reqed->lead_id])->update(['status'=>'pickedup']);
         }
