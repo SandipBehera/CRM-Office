@@ -41,6 +41,16 @@
                                         <input name="aname" id="exampleEmail11" placeholder="Property Name" type="text" class="form-control">
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label for="exampleEmail11" class="">Ammenities for</label>
+                                        <select name="prop_select" class="form-control">
+                                            <option value="residental">Residental</option>
+                                            <option value="commercial">Commercial</option>
+                                            <option value="plot">Plot for Development</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4">

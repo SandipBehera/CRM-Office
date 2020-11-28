@@ -83,16 +83,44 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" id="nexdate">
                                     <div class="position-relative form-group">
                                     <label for="exampleEmail11" class="">Next calling Date</label>
                                     <input type="text" class="form-control" name="nxd" data-toggle="datepicker"  autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+
+                                <div class="col-md-4" id="description">
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail11" class="">Description</label>
                                         <textarea name="comments" value="" id="exampleEmail11"  type="text"  class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" id='closed_form'>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                    <label for="exampleEmail11" class="">Booking Registered Name</label>
+                                    <input type="text" class="form-control" name="client_name"  autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                    <label for="exampleEmail11" class="">Property Name</label>
+                                    <input type="text" class="form-control" name="booked_porp_name"  autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                    <label for="exampleEmail11" class="">Booking Unit </label>
+                                    <input type="text" class="form-control" name="booking_unit"  autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                    <label for="exampleEmail11" class="">Booking Form Images</label>
+                                    <input type="file" class="form-control" name="booking_form_img[]" id="Booking_form_img">
+                                    <input type="button" id="booking_image_add" class="btn btn-success" value="Add More Images" />
                                     </div>
                                 </div>
                             </div>
@@ -153,9 +181,22 @@
             var lead_for='{{$lead_details->leads_for}}'
             if($(this).val()=='site visit Initate' && lead_for !='Keyon Plus' ){
                 $('#lead_s_visit').show();
+                $('#closed_form').hide();
+                $('#description').show();
+                $('#nexdate').show();
+
+            }
+            else if($(this).val()=='closed' && lead_for !='Keyon Plus'){
+                $('#nexdate').hide();
+                $('#lead_s_visit').hide();
+                $('#description').hide();
+                $('#closed_form').show();
             }
             else{
                 $('#lead_s_visit').hide();
+                $('#closed_form').hide();
+                $('#description').show();
+                $('#nexdate').show();
             }
         });
         $("#lead_status").trigger("change");

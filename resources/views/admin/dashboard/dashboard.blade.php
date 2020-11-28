@@ -92,6 +92,7 @@
                                     <tr>
                                         <th class="text-center">sl no.</th>
                                         <th>Project Name</th>
+                                        <th>Total Lead</th>
                                         @foreach ($leadReport as $item_report)
                                                 @php
                                                     $employee_name=Employee::where(['employee_id'=>$item_report->asssigned_to])->first();
@@ -104,18 +105,19 @@
                                 <tbody>
                                     @foreach ($allProperty as $item_property)
                                     @php
-                                        $fetch_proprety_in_leads=Leads::where('leads_for','LIKE','%'.$item_property->property_name.'%')->get();
+                                        $fetch_proprety_in_leads=Leads::where('leads_for','LIKE','%'.$item_property->property_name.'%')->orWhere('leads_for','LIKE','%KeyonInterior%')->orWhere('leads_for','LIKE','%KeyonPlus%')->get();
 
                                     @endphp
 
                                     <tr>
                                         <td class="text-center text-muted">{{$i++}}</td>
                                         <td>{{$item_property->property_name}}</td>
+                                        <td>{{$fetch_proprety_in_leads->count()}}</td>
                                             @foreach ($leadReport as $item_lead_report)
                                             @php
                                                     $employee_name=Employee::where(['employee_id'=>$item_lead_report->asssigned_to])->first();
                                                 @endphp
-                                            {{-- <td>
+                                            <td>
                                                 <ul class="vertical-nav-menu">
                                                 <li>New:{{$fetch_proprety_in_leads->where('status','=','NEW')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
                                                 <li>Inprocess:{{$fetch_proprety_in_leads->where('status','=','Inprocess')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
@@ -126,18 +128,11 @@
                                                 <li>Closed:{{$fetch_proprety_in_leads->where('status','=','closed')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
                                                 <li>Dead:{{$fetch_proprety_in_leads->where('status','=','dead')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</li>
                                                 </ul>
-                                            </td> --}}
-                                            <td class="text-left" style="width: 200px;">
+                                            </td>
+                                            {{-- <td class="text-left" style="width: 200px;">
                                                 <div class="pie-sparkline">{{$fetch_proprety_in_leads->where('status','=','NEW')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','Inprocess')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','follow up')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','site visit Initate')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','site visit Done')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','negotiation')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','closed')->where('asssigned_to','=',$employee_name->employee_id)->count()}},{{$fetch_proprety_in_leads->where('status','=','dead')->where('asssigned_to','=',$employee_name->employee_id)->count()}}</div>
-                                            </td>
+                                            </td> --}}
                                             @endforeach
-
-                                        <td>
-                                            <p>New:{{$fetch_proprety_in_leads->where('status','=','Inprocess')->count()}}</p>
-                                            </td>
-                                        <td class="text-center">
-                                            <div class="badge badge-warning">Pending</div>
-                                        </td>
 
                                         <td class="text-center">
                                             <button type="button" id="PopoverCustomT-1"

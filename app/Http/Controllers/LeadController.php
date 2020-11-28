@@ -5,7 +5,9 @@ use App\Models\Employee;
 use App\Models\Leads;
 use App\Models\LeadActivate;
 use App\Models\LeadsComment;
+use App\Models\leadbooked;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\LeadImport;
 use Ixudra\Curl\Facades\Curl;
@@ -66,7 +68,12 @@ public function Leadstatus(Request $req,$id){
         $leads_comment->lead_status=$data['status'];
         $leads_comment->followup_date=date($data['nxd']);
         //$leads_comment->follow_up_time='';
+        if($data['status']!='closed'){
         $leads_comment->comment=$data['comments'];
+        }
+        else{
+            $leads_comment->comment='Property Have Been closed';
+        }
         $leads_comment->location='';
         $leads_comment->save();
         if($data['status']=='site visit Initate'){
@@ -76,8 +83,25 @@ public function Leadstatus(Request $req,$id){
             $leads_transfer->lead_to=$data['visit_assign'];
             $leads_transfer->save();
         }
+        elseif($data['status']=='closed'){
+            $booked_img=$data['booking_form_img'];
+            foreach($booked_img as $fimage){
+            $lead_booked=new leadbooked();
+            $lead_booked->lead_id=$id;
+            $lead_booked->bregd_name=$data['client_name'];
+            $lead_booked->bprop_name=$data['booked_porp_name'];
+            $lead_booked->bunit=$data['booking_unit'];
+            //booking form images
+                $extension = $fimage->getClientOriginalExtension();
+                $fileName = rand(111,99999).'.'.$extension;
+                $large_image_path = 'images/Booking_images/'.$fileName;
+                Image::make($fimage)->save($large_image_path);
+                $lead_booked->form_img =$fileName;
+                $lead_booked->save();
+            }
+        }
         Leads::where('id',$id)->update(['status'=>$data['status']]);
-        return redirect('/crm-employee/today-assign')->with('flash_message_success','Leads has been updated');
+        return back()->with('flash_message_success','Leads has been updated');
     }
 
     $lead_details=Leads::where('id',$id)->first();
@@ -129,6 +153,7 @@ public function Leadstatus(Request $req,$id){
     public function todayassigned(Request $req){
         $check_for_today=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('assigned_date','=',date('Y-m-d'))->where('status','=','Assigned','or','status','=','NEW')->get();
         $check_for_today_follow_up=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('assigned_date','=',date('Y-m-d'))->where('status','=','follow up')->get();
+
         return view('employee-portal.leads.today-leads')->with(compact('check_for_today','check_for_today_follow_up'));
     }
     //lead Report Generation

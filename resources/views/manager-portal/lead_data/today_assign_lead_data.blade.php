@@ -100,19 +100,19 @@
                                                 <td><a href="javascript:void(0)" id="Add_to_db_" >{{$item->leads_for}}</a></td>
                                                 <td><a href="javascript:void(0)" id="Add_to_db_" >{{$employee_name->name}}</a></td>
                                                 @if ($item->status=='NEW' && $item->status!=date('Y-m-d'))
-                                                <td class="text-center btn-danger"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Over Due</a></td>
+                                                <td class="text-center btn-danger"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Over Due</a></td>
                                                 @elseif ($item->status=='follow up')
-                                                <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Follow Up</a></td>
+                                                <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Follow Up</a></td>
                                                 @elseif ($item->status=='site visit Initate')
-                                                <td class="text-center bg-malibu-beach" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Initate</a></td>
+                                                <td class="text-center bg-malibu-beach" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Site Visit Initate</a></td>
                                                 @elseif ($item->status=='site visit Done')
-                                                <td class="text-center bg-ripe-malin" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                                <td class="text-center bg-ripe-malin" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Site Visit Done</a></td>
                                                 @elseif ($item->status=='closed')
-                                                 <td class="text-center bg-grow-early" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                                 <td class="text-center bg-grow-early" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Site Visit Done</a></td>
                                                 @elseif ($item->status=='dead')
-                                                <td class="text-center btn-gradient-focus" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                                <td class="text-center btn-gradient-focus" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Site Visit Done</a></td>
                                                 @else
-                                                <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">{{$item->status}}</a></td>
+                                                <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >{{$item->status}}</a></td>
                                                 @endif
                                                 <td>
                                                     @if(!empty($comments))
@@ -143,7 +143,7 @@
                                                             },
                                                             success:function(res){
                                                                 if(res){
-                                                                    window.location.href="/crm-employee/status-update-leads/{{$item->id}}";
+                                                                    window.open("/crm-employee/status-update-leads/{{$item->id}}");
                                                                 }
                                                             }
 
@@ -190,17 +190,17 @@
                                                 @if ($item_follow_up->status=='NEW' && $item_follow_up->status!=date('Y-m-d'))
                                                  <td class="text-center btn-danger"><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">Over Due</a></td>
                                                 @elseif ($item_follow_up->status=='follow up')
-                                                <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">Follow Up</a></td>
+                                                <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500" >Follow Up</a></td>
                                                 @elseif ($item_follow_up->status=='site visit Initate')
-                                                <td class="text-center bg-malibu-beach" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">Site Visit Initate</a></td>
+                                                <td class="text-center bg-malibu-beach" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500" >Site Visit Initate</a></td>
                                                 @elseif ($item_follow_up->status=='site visit Done')
-                                                <td class="text-center bg-ripe-malin" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                                <td class="text-center bg-ripe-malin" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500" >Site Visit Done</a></td>
                                                 @elseif ($item_follow_up->status=='closed')
-                                                <td class="text-center bg-grow-early" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                                <td class="text-center bg-grow-early" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500" >Site Visit Done</a></td>
                                                 @elseif ($item_follow_up->status=='dead')
-                                                <td class="text-center btn-gradient-focus" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">Site Visit Done</a></td>
+                                                <td class="text-center btn-gradient-focus" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500" >Site Visit Done</a></td>
                                                 @else
-                                                    <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500">{{$item_follow_up->status}}</a></td>
+                                                    <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item_follow_up->id}}" style="color: #fff;font-weight:500" >{{$item_follow_up->status}}</a></td>
                                                 @endif
                                                 <td><a href="javascript:void(0)" id="Add_to_db_" >{{$item_follow_up->assigned_date}}</a></td>
 
@@ -218,6 +218,29 @@
                                                     @endif
                                                 </td>
                                                 </tr>
+                                                <script>
+                                                    $(document).on('click','#Add_to_db_{{$item_follow_up->id}}',function(){
+                                                        var lead_id="{{$item_follow_up->id}}";
+
+                                                        $.ajax({
+
+                                                            type:"post",
+                                                            url:"/today-picked-up",
+                                                            data:{
+                                                                "_token":"{{csrf_token()}}",
+                                                                "lead_id":lead_id,
+                                                                'emp_id':"{{Session::get('profile_id')}}",
+                                                                'status':"{{$item->status}}"
+                                                            },
+                                                            success:function(res){
+                                                                if(res){
+                                                                    window.open("/crm-employee/status-update-leads/{{$item->id}}");
+                                                                }
+                                                            }
+
+                                                        });
+                                                    });
+                                                </script>
                                                 @endforeach
 
                                             </tbody>

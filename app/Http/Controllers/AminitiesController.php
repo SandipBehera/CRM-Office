@@ -12,6 +12,7 @@ class AminitiesController extends Controller
             $data=$req->all();
             $ammenites=new amenities();
             $ammenites->amminites_name=$data['aname'];
+            $ammenites->amminites_for=$data['prop_select'];
             $ammenites_image=$req->file('aimage');
             $extension = $ammenites_image->getClientOriginalExtension();
             $fileName = rand(1,99999).'.'.$extension;

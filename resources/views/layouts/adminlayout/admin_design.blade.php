@@ -45,7 +45,12 @@
       selector: '#mytextarea'
     });
 </script>
-
+{{-- tinymce --}}
+<script>
+    tinymce.init({
+      selector: '#mytextarea1'
+    });
+</script>
 <!--field INcremnet Code-->
 <script type="text/javascript">
     $(document).ready(function(){
@@ -211,6 +216,47 @@ $('#previewimg1' + abc).attr('src', e.target.result);
 
 });
 </script>
+<!-- booking form images -->
+<script>
+    var abc = 0;      // Declaring and defining global increment variable.
+    $(document).ready(function() {
+    //  To add new input file field dynamically, on click of "Add More Files" button below function will be executed.
+    $('#booking_image_add').click(function() {
+    $(this).before($("<div/>", {
+    id: 'filediv'
+    }).fadeIn('slow').append($("<input/>", {
+    name: 'booking_form_img[]',
+    type: 'file',
+    id: 'Booking_form_img'
+    }), $("<br/><br/>")));
+    });
+    // Following function will executes on change event of file input to select different file.
+    $('body').on('change', '#Booking_form_img', function() {
+    if (this.files && this.files[0]) {
+    abc += 1; // Incrementing global variable by 1.
+    var z = abc - 1;
+    var x = $(this).parent().find('#previewimg2' + z).remove();
+    $(this).before("<div id='abcd2" + abc + "' class='col-md-12 abcd'><img id='previewimg2" + abc + "' src=''/></div>");
+    var reader = new FileReader();
+    reader.onload = imageIsLoaded;
+    reader.readAsDataURL(this.files[0]);
+    $(this).hide();
+    $("#abcd2" + abc).append($("<img/>", {
+    id: 'img',
+    src: 'https://www.freeiconspng.com/uploads/x-png-13.png',
+    alt: 'delete'
+    }).click(function() {
+    $(this).parent().parent().remove();
+    }));
+    }
+    });
+    // To Preview Image
+    function imageIsLoaded(e) {
+    $('#previewimg2' + abc).attr('src', e.target.result);
+    };
+
+    });
+    </script>
 <!--active the properties-->
 <script>
     $(document).on('click','#active',function(){

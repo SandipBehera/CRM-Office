@@ -20,13 +20,13 @@ class LoginController extends Controller
         if($req->isMethod('post')){
             $data=$req->all();
             $check=Employee::where(['email_id'=>$data['email'],'password'=>$data['password']])->first();
-            $attendence_table=Attendence::where('emp_id','=',$check->employee_id)->where('created_at','=',date('Y-m-d'))->count();
+
             if($check){
-                if($attendence_table<0){
+
                 $attend=new Attendence();
                  $attend->emp_id=$check->employee_id;
                  $attend->save();
-                }
+
             if($check->user_type==0){
                 $req->session()->put('username', $check->name);
                 $req->session()->put('Admin-Role',$check->user_type);
