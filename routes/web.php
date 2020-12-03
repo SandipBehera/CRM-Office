@@ -63,7 +63,7 @@ Route::match(['get','post'],'/crm-employee/attendence',[EmployeeController::clas
 Route::get('/crm-manager/dashboard',[LoginController::class,'managerdashboard'])->middleware(Contropanellogin::class);
 Route::get('/crm-manager/today-assign',[LeadController::class,'todayemployeeassign'])->middleware(Contropanellogin::class);
 Route::get('/crm-manager/follow-up-assign',[LeadController::class,'followupleadsbyemployee'])->middleware(Contropanellogin::class);
-
+Route::get('/crm-manager/employee-lead-status/{status}/{id}',[LeadController::class,'EmployeeLeadStatus'])->middleware(Contropanellogin::class);
 //Task Controller
 Route::get('/admin/task-data',[TaskScheudler::class,'index'])->middleware(Contropanellogin::class);
 //frontend Controller

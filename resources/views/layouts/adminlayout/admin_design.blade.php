@@ -12,7 +12,7 @@
 
 <link href="{{asset('css/main.css')}}" rel="stylesheet">
 <script type="text/javascript" src="{{asset('js/main.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js"></script>
+
 <script src="https://cdn.tiny.cloud/1/thkq9jaj3afe8qqsrv45ufl3gh7cqyzvs9tclfh9zcugqog0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
@@ -26,7 +26,7 @@
 @yield('content')
 @include('layouts.adminlayout.admin_fotter')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2/dist/Chart.min.js"></script>
-{{--XLSX to JSON file converter--}}
+{{--XLSX to JSON file converter
 <script>
         var uploadedfile;
         document.getElementById("excelfile").addEventListener("change",function(event){
@@ -57,7 +57,7 @@
                 FileReader.readAsBinaryString(uploadedfile);
             }
         });
-    </script>
+    </script>--}}
 <script>
     function display_c(){
     var refresh=1000; // Refresh rate in milli seconds

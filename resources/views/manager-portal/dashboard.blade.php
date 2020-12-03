@@ -3,6 +3,8 @@
     use App\Models\Leads;
     $i=1;
     $j=1;
+    $k=1;
+    $l=1;
 @endphp
 
 @extends('layouts.adminlayout.admin_design')
@@ -144,7 +146,7 @@
                         <div class="card-header-tab card-header">
                             <div class="card-header-title">
                                 <i class="header-icon lnr-rocket icon-gradient bg-tempting-azure"> </i>
-                               Over Leads Calls
+                               Over-Due Leads
 
                             </div>
                         </div>
@@ -170,7 +172,7 @@
                                                 <td>{{$j++}}</td>
                                                <td>{{$item_today_assign->name}}</td>
                                                <td>{{$employee_lead_count->count()}}</td>
-                                               <td>View All</td>
+                                               <td><a href="/crm-manager/employee-lead-status/{{'overdue'}}/{{$item_today_assign->employee_id}}"><button class="btn btn-success">View List</button></a></td>
                                             </tr>
                                            @endforeach
                                         </tbody>
@@ -190,7 +192,7 @@
                         <div class="card-header-tab card-header">
                             <div class="card-header-title">
                                 <i class="header-icon lnr-rocket icon-gradient bg-tempting-azure"> </i>
-                               Site-Visit
+                               Site-Visit Initate
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -212,10 +214,54 @@
                                                    $employee_lead_count=Leads::where('asssigned_to','=',$item_today_assign->employee_id)->where(['status'=>'site visit Initate'])->get();
                                                @endphp
                                                <tr>
-                                                <td>{{$j++}}</td>
+                                                <td>{{$k++}}</td>
                                                <td>{{$item_today_assign->name}}</td>
                                                <td>{{$employee_lead_count->count()}}</td>
-                                               <td><a href="{{url('/')}}"><button class="btn btn-success">View List</button></a></td>
+                                               <td><a href="/crm-manager/employee-lead-status/{{'site visit Initate'}}/{{$item_today_assign->employee_id}}"><button class="btn btn-success">View List</button></a></td>
+                                            </tr>
+                                           @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block text-center card-footer">
+
+                            <a href="{{url('/crm-employee/assigned-leads')}}" class="btn-wide btn btn-success">View All</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <div class="mb-3 card">
+                        <div class="card-header-tab card-header">
+                            <div class="card-header-title">
+                                <i class="header-icon lnr-rocket icon-gradient bg-tempting-azure"> </i>
+                               Site-Visit Done
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div class="tab-pane fade active show">
+
+                                <div class="pt-2 card-body">
+                                    <table class="mb-0 table">
+                                        <thead>
+                                            <tr>
+                                                <th>sl no</th>
+                                                <th>Employee Name</th>
+                                                <th>Total Site Visit</th>
+                                                <th>Action</th>
+                                              </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($employee_from_department as $item_today_assign)
+                                               @php
+                                                   $employee_lead_count=Leads::where('asssigned_to','=',$item_today_assign->employee_id)->where(['status'=>'site visit Done'])->get();
+                                               @endphp
+                                               <tr>
+                                                <td>{{$k++}}</td>
+                                               <td>{{$item_today_assign->name}}</td>
+                                               <td>{{$employee_lead_count->count()}}</td>
+                                               <td><a href="/crm-manager/employee-lead-status/{{'site visit Done'}}/{{$item_today_assign->employee_id}}"><button class="btn btn-success">View List</button></a></td>
                                             </tr>
                                            @endforeach
                                         </tbody>
@@ -256,32 +302,12 @@
                                                    $employee_lead_count=Leads::where('asssigned_to','=',$item_today_assign->employee_id)->where(['status'=>'closed'])->get();
                                                @endphp
                                                <tr>
-                                                <td>{{$j++}}</td>
+                                                <td>{{$l++}}</td>
                                                <td>{{$item_today_assign->name}}</td>
                                                <td>{{$employee_lead_count->count()}}</td>
-                                               <td><a  id="view_employee_{{$item_today_assign->employee_id}}"><button class="btn btn-success">View List</button></a></td>
+                                               <td><a href="/crm-manager/employee-lead-status/{{'closed'}}/{{$item_today_assign->employee_id}}"><button class="btn btn-success">View List</button></a></td>
                                             </tr>
-                                            <script>
-                                                $(documnet).on("click","#view_employee_{{$item_today_assign->employee_id}}",function(){
-                                                    var employee_name="{{$item_today_assign->name}}";
-                                                    var employee_id="{{$item_today_assign->employee_id}}"
 
-                                                    $.ajax({
-                                                        type:"post",
-                                                        url:"/lead-details",
-                                                        data:{
-                                                        "_token":"{{csrf_token()}}",
-                                                        "emp_id":employee_id,
-                                                        'status':"closed",
-                                                        },
-                                                    success:function(res){
-                                                        if(res){
-                                                        window.location.href="/crm-manager/employee-lead-status/"+employee_name;
-                                                            }
-                                                        }
-                                                    });
-                                                });
-                                                </script>
                                            @endforeach
                                         </tbody>
                                     </table>

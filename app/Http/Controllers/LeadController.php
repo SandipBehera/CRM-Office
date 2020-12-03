@@ -186,4 +186,25 @@ public function Leadstatus(Request $req,$id){
         $all_follow_up_leads=Leads::where('status','=','Follow up')->get();
         return view('manager-portal.lead_data.follow_up_lead_data')->with(compact('today_followup_employee_list','all_follow_up_leads'));
     }
+    //Employee Lead Status
+    //check for the required lead status(like: Inporcess leads,site visit initate,closed)
+    //get the employee Id
+    //show the all leads details with the respected generated date and time
+    //fetch the documents images w.r.t the lead id
+    public function EmployeeLeadStatus(Request $request,$status,$id){
+        if($status=="closed"){
+            $fetch_lead_details=Leads::where(['asssigned_to'=>$id,'status'=>$status])->get();
+        }
+        elseif($status=="overdue"){
+            $fetch_lead_details=Leads::where('assigned_date','!=',date('Y-m-d'))->where(['status'=>'Assigned','status'=>'New'])->get();
+        }
+        elseif($status=="site visit Initate"){
+            $fetch_lead_details=Leads::where(['asssigned_to'=>$id,'status'=>$status])->get();
+        }
+        elseif($status=='site visit Done'){
+            $fetch_lead_details=Leads::where(['asssigned_to'=>$id,'status'=>$status])->get();
+        }
+        session()->put('lead_status',$status);
+        return view('manager-portal.lead_data.leads_status_data')->with(compact('fetch_lead_details'));
+    }
 }
