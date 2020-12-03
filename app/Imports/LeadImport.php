@@ -21,7 +21,7 @@ class LeadImport implements ToModel
             'leads_from'=>$row[4],
             'leads_for'=>$row[5],
             'asssigned_to'=>$row[6],
-            'assigned_date'=>$row[7],
+            'assigned_date'=>$row[7]
         ]);
     }
 }

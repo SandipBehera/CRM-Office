@@ -35,7 +35,7 @@
                                         <th>Project Name</th>
                                         <th>Assigned Date</th>
                                         <th>status</th>
-
+                                        <th>Comments</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -66,7 +66,18 @@
                                         @else
                                             <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" target="_blank">{{$item->status}}</a></td>
                                             @endif
-
+                                            @if (!empty($leads_comment))
+                                            @php
+                                                $j=1;
+                                            @endphp
+                                            <td>
+                                                @foreach ($leads_comment as $item_comment)
+                                                {{$j++}}. {{$item_comment->comment}}<br>
+                                                @endforeach
+                                            </td>
+                                            @else
+                                            <td><p>No progress</p></td>
+                                            @endif
                                         </tr>
                                         <script>
                                             $(document).on('click','#Add_to_db_{{$item->id}}',function(){

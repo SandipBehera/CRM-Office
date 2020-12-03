@@ -28,12 +28,12 @@
                                 {{ csrf_field() }}
                                 <div class="col-md-12">
                                     <div class="position-relative form-group">
-                                        <label for="exampleEmail55">Upload Leads In Excel Format</label>
-                                        <input name="fupload" id="exampleEmail55" type="file" class="form-control" accept=".xlsx,.xls,.csv">
+                                        <label for="excelfile">Upload Leads In Excel Format</label>
+                                        <input name="fupload" id="excelfile" type="file" class="form-control" accept=".xlsx,.xls,.csv">
                                     </div>
                                     <div class="form-row">
                                         <div class="center-align" style="padding-left: 40%;padding-right:40%">
-                                        <input type="submit" class="btn btn-primary" name="submit" value="Save">
+                                        <input type="submit" class="btn btn-primary" name="submit" value="Save" id="uploadexcel">
                                         <input type="reset" class="btn btn-danger" name="cancel" value="Cancel">
                                         </div>
                                 </div>
