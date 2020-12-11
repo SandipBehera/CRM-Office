@@ -6,6 +6,8 @@ use Image;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Attendence;
+use App\Models\Leads;
+
 class EmployeeController extends Controller
 {
     public function CreateEmployee(Request $request){
@@ -42,8 +44,13 @@ class EmployeeController extends Controller
     }
 
     public function employeebydepartment(Request $req){
-        $emp_by_dept=Employee::where('department','=',$req->id)->pluck('name','employee_id');
+        $emp_by_dept=Employee::where('department','=',$req->project_name)->pluck('name','employee_id');
         return response()->json($emp_by_dept);
+    }
+    public function employeebyproject(Request $req){
+        $emp_by_project=Leads::where('leads_for','LIKE','%'.$req->project_name.'%')->groupBy('asssigned_to')->pluck('asssigned_to');
+       // $emp_name=Employee::where('employee_id','=',$emp_by_project)->pluck('name','employee_id');
+        return response()->json($emp_by_project);
     }
     public function attendence(Request $req){
         if($req->isMethod('post')){

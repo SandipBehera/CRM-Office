@@ -39,13 +39,22 @@
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail11" class="">Department Name</label>
-                                        <select name="dept_name" class=" form-control" id='dept_name'>
-                                            <option value="">Select Department</option>
+                                        <select name="dept_name" class=" form-control" >
+                                            <option value="0">All Department</option>
                                             @foreach ($department as $item)
                                             <option value="{{$item->id}}">{{$item->Department_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-4" id="select_prop">
+                                    <label for="exampleEmail11" class="">Proeprty Name</label>
+                                    <select name="dept_name" class=" form-control" id='dept_name'>
+                                        <option value="0">All Project</option>
+                                        @foreach ($properties as $item_prop)
+                                        <option value="{{$item_prop->property_name}}">{{$item_prop->property_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
@@ -94,6 +103,8 @@
             </div>
         </div>
     </div>
-
+<script>
+$('#dept_name').c
+</script>
 
 @endsection

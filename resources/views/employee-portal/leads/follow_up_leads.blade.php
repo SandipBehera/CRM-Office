@@ -31,8 +31,6 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Name</th>
-                                        <th>email</th>
-                                        <th>mobile</th>
                                         <th>Project Name</th>
                                         <th>status</th>
                                         <th>Comment</th>
@@ -51,10 +49,8 @@
                                         <tr>
                                         <td>{{$i++}}</td>
                                         <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->name}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->email_id}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->phone}}</a></td>
                                         <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->leads_for}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->status}}</a></td>
+                                        <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->status}}</a></td>
                                         @if (!empty($leads_comment))
                                         <td>
                                             @foreach ($leads_comment as $item_comment)

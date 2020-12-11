@@ -25,6 +25,25 @@
                     <div class="col-md-12">
                         <div class="main-card mb-3 card">
                             <div class="card-body">
+                                <ul class="tabs-animated-shadow nav-justified tabs-animated nav">
+                                    <li class="nav-item">
+                                        <a role="tab" class="nav-link active" id="tab-c1-0" data-toggle="tab" href="#tab-animated1-0">
+                                            <span class="nav-text">This Week</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a role="tab" class="nav-link" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1">
+                                            <span class="nav-text">Last Week</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a role="tab" class="nav-link" id="tab-c1-1" data-toggle="tab" href="#tab-animated1-1">
+                                            <span class="nav-text">customs</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab-animated1-0" role="tabpanel">
                                         <table style="width: 100%;" class="mb-0 table">
                                             <thead>
                                             <tr>
@@ -32,8 +51,7 @@
                                                 <th>Lead Name</th>
                                                 <th>Project Name</th>
                                                 <th>Assign To</th>
-                                                <th>Status</th>
-                                                <th>Comment</th>
+                                                <th>Update Dates</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -44,7 +62,7 @@
                                                 @php
 
                                                 $employee_name=Employee::where('employee_id','=',$item->asssigned_to)->first();
-                                                $comments=LeadsComment::where('lead_id','=',$item->id)->get();
+                                                $comments=LeadsComment::where('lead_id','=',$item->id)->where('lead_status','=',Session::get('lead_status'))->get();
 
                                                 @endphp
 
@@ -53,14 +71,13 @@
                                                 <td>{{$item->name}}</td>
                                                 <td>{{$item->leads_for}}</td>
                                                 <td>{{$employee_name->name}}</td>
-                                                <td>{{$item->status}}</td>
                                                 <td>
+
+                                                <p><b>Asssigned Date:</b>{{$item->assigned_date}}</p>
                                                     @if(!empty($comments))
-                                                    @php
-                                                        $j=1;
-                                                    @endphp
                                                     @foreach ($comments as $item_comments)
-                                                    {{$j++}}. {{$item_comments->comment}}
+                                                     <p><b>Last Updated Date&time: </b>{{$item_comments->created_at}}</p>
+                                                     <p><b>Next Chessing Date:</b>{{$item_comments->followup_date}}</p>
                                                     @endforeach
                                                     @else
                                                     Did Not speak
@@ -96,7 +113,8 @@
                                             </tbody>
                                         </table>
                                 </div>
-
+                                </div>
+                            </div>
                             </div>
                         </div>
                  </div>

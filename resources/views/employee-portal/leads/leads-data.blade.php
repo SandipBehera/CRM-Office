@@ -23,21 +23,9 @@
             <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
                 <div class="main-card mb-3 card">
                     <div class="card-body">
-                        @if(Session::has('flash_message_error'))
-                        <div class="alert alert-danger fade show">
-                            <button type="button" class="close" data-dismiss="alert">x</button>
-                            <strong style="color: red">{!! session('flash_message_error') !!}</strong>
-                        </div>
-                    @endif
-                     @if(Session::has('flash_message_success'))
-                        <div class="alert alert-success fade show">
-                            <button type="button" class="close" data-dismiss="alert">x</button>
-                            <strong>{!! session('flash_message_success') !!}</strong>
-                        </div>
-                    @endif
+                        <div id="result"></div>
                     <h5 class="card-title">Leads Status</h5>
-                        <form class="" method="post" action="{{url('/crm-employee/status-update-leads/'.$lead_details->id.'')}}" enctype="multipart/form-data">
-                            {{ csrf_field() }}
+
                             <div class="form-row">
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
@@ -61,6 +49,7 @@
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail11" class="">Lead Status</label>
                                         <select name="status" class=" form-control" id='lead_status'>
+                                            <option value="">Select Status</option>
                                             <option value="new">New</option>
                                             <option value="Inprocess">Inprocess</option>
                                             <option value="follow up">Follow Up</option>
@@ -75,7 +64,7 @@
                                 <div class="col-md-4" id='lead_s_visit'>
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail11" class="">Site Visit Assign to</label>
-                                        <select name="visit_assign" class=" form-control" >
+                                        <select name="visit_assign" class=" form-control" id="assigned_to" >
                                             <option value="">Assigned Person Name</option>
                                             @foreach ($site_visit_employee_all as $item_permission)
                                                 <option value="{{$item_permission->employee_id}}">{{$item_permission->name}}</option>
@@ -86,14 +75,14 @@
                                 <div class="col-md-4" id="nexdate">
                                     <div class="position-relative form-group">
                                     <label for="exampleEmail11" class="">Next calling Date</label>
-                                    <input type="text" class="form-control" name="nxd" data-toggle="datepicker"  autocomplete="off">
+                                    <input type="text" class="form-control" name="nxd" data-toggle="datepicker" id="next_calling_date"  autocomplete="off">
                                     </div>
                                 </div>
 
                                 <div class="col-md-4" id="description">
                                     <div class="position-relative form-group">
-                                        <label for="exampleEmail11" class="">Description</label>
-                                        <textarea name="comments" value="" id="exampleEmail11"  type="text"  class="form-control"></textarea>
+                                        <label for="comments_data" class="">Description</label>
+                                        <textarea name="comments" value=""  type="text" id="comments_data" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +106,7 @@
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
                                     <label for="exampleEmail11" class="">Booking Unit </label>
-                                    <input type="text" class="form-control" name="booking_unit"  autocomplete="off">
+                                    <input type="text" class="form-control" name="booking_unit" id="booking_unit"  autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -131,12 +120,12 @@
                             <div class="from-row">
                                 <div class="col-md-12">
                                     <div class="center-align" style="padding-left: 40%;padding-right:40%">
-                                        <input type="submit" class="btn btn-primary" name="submit" value="Save">
+                                        <input type="submit" class="btn btn-primary" name="submit" id="submit_data" value="Save">
                                         <input type="reset" class="btn btn-danger" name="cancel" value="Cancel">
                                         </div>
                                 </div>
                             </div>
-                        </form>
+
                         <!--leads data-->
                         @if ($leads_comments_count>0)
 
@@ -180,6 +169,83 @@
             </div>
         </div>
     </div>
+    <!--Post Data through ajax -->
+    <script>
+        $('#submit_data').click(function(){
+            var status=$('#lead_status').val();
+            var assign_to=$('#assigned_to').val();
+            var calling=$('#next_calling_date').val();
+            var comment=$('#comments_data').val();
+            var flag=true;
+            if(status==""){
+                $('#lead_status').css('border-color','red');
+                flag=false;
+            }
+            if(status=="site visit Initate" && assign_to==""){
+                $('#assigned_to').css('border-color','red');
+                flag=false;
+            }
+            if(calling==""){
+                $('#next_calling_date').css('border-color','red');
+                flag=false;
+            }
+            if(comment=="")
+            {
+                $('#comments_data').css('border-color','red');
+                flag=false;
+            }
+            /**** validation end here ***/
+            /* if all values are fine then start posting the values into the backend file*/
+            if(flag){
+                $.ajax({
+                    type:'post',
+
+                    url:'/crm-employee/status-update/{{$lead_details->id}}',
+                    dataType:'json',
+                    data:{
+                        "_token":"{{csrf_token()}}",
+                          "status":status,
+                          "visit_assign":assign_to,
+                          "nxd":calling,
+                          "comments":comment,
+                    },
+                    beforeSend: function(){
+                        $('#submit_data').attr('disable',true);
+                        $('#submit_data').after('<div class="loader">',
+                                                        '<div class="pacman">',
+                                                            '<div></div>',
+                                                            '<div></div>',
+                                                            '<div></div>',
+                                                            '<div></div>',
+                                                            '<div></div>',
+                                                        '</div>',
+                                                    '</div>');
+
+                    },
+                    complete:function(){
+                        $('#submit_data').attr('disable',false);
+                        $('.loader').remove();
+                    },
+                    success:function(data){
+                        if(data.type=='error'){
+                            output='<div class="alert alert-danger fade show">',
+                            '<button type="button" class="close" data-dismiss="alert">x</button>',
+                            '<strong style="color: red">!!Lead could not update</strong>',
+                            '</div>';
+                        }
+                        else{
+                            output='<div class="alert alert-success fade show">',
+                            '<button type="button" class="close" data-dismiss="alert">x</button>',
+                            '<strong>Lead Updated Sucessfully</strong>',
+                        '</div>';
+                        }
+                        $('#result').hide().html(output).slideDown();
+                    }
+                });
+            }
+        });
+        </script>
+    <!-- Input manipulation in the page-->
     <script>
         $('#lead_status').change(function(){
             var lead_for='{{$lead_details->leads_for}}'

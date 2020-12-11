@@ -61,9 +61,18 @@ public function LeadsAssigned(Request $req){
     $assigned_leads=Leads::where('asssigned_to',$req->session()->get('profile_id'))->orderBy('id','DESC')->get();
     return view('employee-portal.leads.all-assigned')->with(compact('assigned_leads'));
 }
-//employee data recoreder
+//redirect to lead-status-update page
+public function leadstatusget(Request $req,$id){
+    $lead_details=Leads::where('id',$id)->first();
+    $leads_comments=LeadsComment::where('lead_id',$id)->get();
+    $leads_comments_count=LeadsComment::where('lead_id',$id)->count();
+    $site_visit_employee_all=Employee::where('permission','like','%Site Visit%')->get();
+    $property_list=Properties::where('active','=','1')->get();
+    return view('employee-portal.leads.leads-data')->with(compact('lead_details','leads_comments','leads_comments_count','site_visit_employee_all','property_list'));
+}
+//employee data recoreder update
 public function Leadstatus(Request $req,$id){
-    if($req->isMethod('post')){
+
         $data=$req->all();
         $leads_comment=new LeadsComment();
         $leads_comment->lead_id=$id;
@@ -100,18 +109,11 @@ public function Leadstatus(Request $req,$id){
                 Image::make($fimage)->save($large_image_path);
                 $lead_booked->form_img =$fileName;
                 $lead_booked->save();
-            }
+
         }
         Leads::where('id',$id)->update(['status'=>$data['status']]);
-        return back()->with('flash_message_success','Leads has been updated');
+        return response()->json();
     }
-
-    $lead_details=Leads::where('id',$id)->first();
-    $leads_comments=LeadsComment::where('lead_id',$id)->get();
-    $leads_comments_count=LeadsComment::where('lead_id',$id)->count();
-    $site_visit_employee_all=Employee::where('permission','like','%Site Visit%')->get();
-    $property_list=Properties::where('active','=','1')->get();
-    return view('employee-portal.leads.leads-data')->with(compact('lead_details','leads_comments','leads_comments_count','site_visit_employee_all','property_list'));
     }
     //overdue leads list
     public function overduepick(Request $req){
@@ -167,7 +169,8 @@ public function Leadstatus(Request $req,$id){
 
         }
         $department=DB::table('departments')->get();
-        return view('admin.lead.Lead_report')->with(compact('department'));
+        $properties=Properties::get();
+        return view('admin.lead.Lead_report')->with(compact('department','properties'));
     }
     //data visulization
     //pie chart of all lead status
@@ -196,7 +199,7 @@ public function Leadstatus(Request $req,$id){
             $fetch_lead_details=Leads::where(['asssigned_to'=>$id,'status'=>$status])->get();
         }
         elseif($status=="overdue"){
-            $fetch_lead_details=Leads::where('assigned_date','!=',date('Y-m-d'))->where(['status'=>'Assigned','status'=>'New'])->get();
+            $fetch_lead_details=Leads::where(['asssigned_to'=>$id])->where('assigned_date','!=',date('Y-m-d'))->where(['status'=>'Assigned','status'=>'New'])->get();
         }
         elseif($status=="site visit Initate"){
             $fetch_lead_details=Leads::where(['asssigned_to'=>$id,'status'=>$status])->get();

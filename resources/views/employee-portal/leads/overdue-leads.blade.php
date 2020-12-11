@@ -55,7 +55,7 @@
                                         <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->email_id}}</a></td>
                                         <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->phone}}</a></td>
                                         <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->leads_for}}</a></td>
-                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->status}}</a></td>
+                                        <td class="text-center btn-danger"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500">{{$item->status}}</a></td>
                                         @if (!empty($leads_comment))
                                         <td>
                                             @foreach ($leads_comment as $item_comment)

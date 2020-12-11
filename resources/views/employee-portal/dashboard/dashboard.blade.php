@@ -474,7 +474,7 @@
                 </div>
             </div>
             <div class="text-center mb-3">
-                <h5 class="menu-header-title text-capitalize mb-3 fsize-3">Profile Cards</h5>
+                <h5 class="menu-header-title text-capitalize mb-3 fsize-3">Latest Employee</h5>
                 <div role="group" class="mb-3 btn-group-lg btn-group">
                     <button class="btn-shadow  btn btn-alternate btn-pill pl-3">Hour</button>
                     <button class="btn-shadow  btn btn-alternate">Day</button>

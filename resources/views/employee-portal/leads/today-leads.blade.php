@@ -39,14 +39,14 @@
                                             <a class="nav-link" href="javascript:void(0)" id="new_assign">
                                                 <i class="nav-link-icon lnr-inbox"></i>
                                                 <span>New Assigned</span>
-                                            <div class="ml-auto badge badge-pill badge-secondary"></div>
+                                            <div class="ml-auto badge badge-pill badge-secondary">{{$check_for_today->count()}}</div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="javascript:void(0)" id="today_follow_ups">
                                                 <i class="nav-link-icon lnr-book"></i>
                                                 <span>Today Follow-Ups</span>
-                                                <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                                <div class="ml-auto badge badge-pill badge-danger">{{$check_for_today_follow_up->count()}}</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -67,23 +67,18 @@
                                             <span class="nav-text">Today Follow-Up({{$check_for_today_follow_up->count()}})</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a role="tab" class="nav-link" id="tab-c1-2" data-toggle="tab" href="#tab-animated1-2">
-                                            <span class="nav-text">Due Leads</span>
-                                        </a>
-                                    </li>
+                                    
                                 </ul><div class="tab-content">
                                     <div class="tab-pane active" id="tab-animated1-0" role="tabpanel">
                                         <table style="width: 100%;" class="mb-0 table">
+                                            
                                             <thead>
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Name</th>
-                                                <th>email</th>
-                                                <th>mobile</th>
                                                 <th>Project Name</th>
                                                 <th>status</th>
-                                                <th>Comment</th>
+                                                
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -98,25 +93,25 @@
                                                 @endphp
 
                                                 <tr>
-                                                <td>{{$i++}}</td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->name}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->email_id}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->phone}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" >{{$item->leads_for}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}">{{$item->status}}</a></td>
-                                                <td>
-                                                    @if(!empty($comments))
-                                                    @php
-                                                        $j=1;
-                                                    @endphp
-                                                    @foreach ($comments as $item_comments)
-                                                    {{$j++}}. {{$item_comments->comment}}
-                                                    @endforeach
-                                                    @else
-                                                    Did Not speak
-                                                    @endif
-                                                </td>
-                                                </tr>
+                                        <td>{{$i++}}</td>
+                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color:black;font-weight:500" >{{$item->name}}</a></td>
+                                        <td><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color:black;font-weight:500" >{{$item->leads_for}}</a></td>
+                                        @if ($item->status=='NEW' && $item->assigned_date!=date('Y-m-d'))
+                                        <td class="text-center btn-danger"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500" >Over Due</a></td>
+                                        @elseif ($item->status=='follow up')
+                                        <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500"  >Follow Up</a></td>
+                                        @elseif ($item->status=='site visit Initate')
+                                        <td class="text-center bg-malibu-beach" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500"  >Site Visit Initate</a></td>
+                                        @elseif ($item->status=='site visit Done')
+                                        <td class="text-center bg-ripe-malin" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500"  >Site Visit Done</a></td>
+                                        @elseif ($item->status=='closed')
+                                        <td class="text-center bg-grow-early" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500"  >Closed</a></td>
+                                        @elseif ($item->status=='dead')
+                                        <td class="text-center btn-gradient-focus" ><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500"  >Dead</a></td>
+                                        @else
+                                            <td class="text-center btn-gradient-secondary"><a href="javascript:void(0)" id="Add_to_db_{{$item->id}}" style="color: #fff;font-weight:500"  >{{$item->status}}</a></td>
+                                            @endif
+                                        </tr>
                                                 <script>
                                                     $(document).on('click','#Add_to_db_{{$item->id}}',function(){
                                                         var lead_id="{{$item->id}}";
@@ -134,7 +129,7 @@
                                                             },
                                                             success:function(res){
                                                                 if(res){
-                                                                    window.location.href="/crm-employee/status-update-leads/{{$item->id}}";
+                                                                    window.open("/crm-employee/status-update-leads/{{$item->id}}");
                                                                 }
                                                             }
 
@@ -153,8 +148,6 @@
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Name</th>
-                                                <th>email</th>
-                                                <th>mobile</th>
                                                 <th>Project Name</th>
                                                 <th>status</th>
                                                 <th>Comment</th>
@@ -174,10 +167,8 @@
                                                 <tr>
                                                 <td>{{$i++}}</td>
                                                 <td><a href="javascript:void(0)" id="Add_to_db_{{$item_follow->id}}" >{{$item_follow->name}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item_follow->id}}">{{$item_follow->email_id}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item_follow->id}}" >{{$item_follow->phone}}</a></td>
                                                 <td><a href="javascript:void(0)" id="Add_to_db_{{$item_follow->id}}" >{{$item_follow->leads_for}}</a></td>
-                                                <td><a href="javascript:void(0)" id="Add_to_db_{{$item_follow->id}}">{{$item_follow->status}}</a></td>
+                                                <td class="text-center btn-warning" ><a href="javascript:void(0)" id="Add_to_db_{{$item_follow->id}}" style="color: #fff;font-weight:500">{{$item_follow->status}}</a></td>
                                                 <td>
                                                     @if(!empty($comments))
                                                     @php
@@ -208,7 +199,7 @@
                                                             },
                                                             success:function(res){
                                                                 if(res){
-                                                                    window.location.href="/crm-employee/status-update-leads/{{$item->id}}";
+                                                                    window.open("/crm-employee/status-update-leads/{{$item->id}}");
                                                                 }
                                                             }
 

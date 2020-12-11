@@ -459,12 +459,12 @@ $(document).on('click','#Assign_Employee',function(){
                 url:"/admin/employee_by_dept",
                 data:{
                     "_token":"{{csrf_token()}}",
-                     "id":dept_name
+                     "project_name":dept_name
                     },
                 success:function(res){
            if(res){
                $("#emp_name").empty();
-               $("#emp_name").append('<option value=" ">Select</option>');
+               $("#emp_name").append('<option value="0">All Employee</option>');
                $.each(res,function(key,value){
                    $("#emp_name").append('<option value="'+key+'">'+value+'</option>');
                });

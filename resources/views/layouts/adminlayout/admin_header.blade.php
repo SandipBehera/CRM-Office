@@ -63,7 +63,7 @@
                                                             </div>
                                                             <div class="widget-content-left">
                                                                 <div class="widget-heading">{{Session::get('username')}}</div>
-                                                                <div class="widget-subheading opacity-8">A short profile description</div>
+                                                                <div class="widget-subheading opacity-8">{{Session::get('profile_designation')}}-{{Session::get('department')}}</div>
                                                             </div>
                                                             <div class="widget-content-right mr-2">
                                                                 <a href="{{url('/logout')}}" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="widget-content-left  ml-3 header-user-info">
                                 <div class="widget-heading"> {{Session::get('username')}} </div>
-                                <div class="widget-subheading"> VP People Manager </div>
+                                <div class="widget-subheading">{{Session::get('profile_designation')}}-{{Session::get('department')}} </div>
                             </div>
                         </div>
                     </div>

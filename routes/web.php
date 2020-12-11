@@ -47,12 +47,13 @@ Route::post('/assign-leads',[LeadController::class,'LeadAssign']);
 //admin-Employee Controller
 Route::match(['get', 'post'],'/admin/create-employee',[EmployeeController::class,'CreateEmployee'])->middleware(Contropanellogin::class);
 Route::get('/admin/all-employee',[EmployeeController::class,'ViewEmployee'])->middleware(Contropanellogin::class);
-Route::post('/admin/employee_by_dept',[EmployeeController::class,'employeebydepartment']);
+Route::post('/admin/employee_by_dept',[EmployeeController::class,'employeebyproject']);
 
 //Employee-Dashboard Controller
 Route::get('/crm-employee/dashboard',[LoginController::class,'employeedashboard'])->middleware(Contropanellogin::class);
 Route::get('/crm-employee/assigned-leads',[LeadController::class,'LeadsAssigned'])->middleware(Contropanellogin::class);
-Route::match(['get', 'post'],'/crm-employee/status-update-leads/{id}',[LeadController::class,'Leadstatus'])->middleware(Contropanellogin::class);
+Route::get('/crm-employee/status-update-leads/{id}',[LeadController::class,'Leadstatusget'])->middleware(Contropanellogin::class);
+Route::post('/crm-employee/status-update/{id}',[LeadController::class,'Leadstatus']);
 Route::get('/crm-employee/overdue-leads',[LeadController::class,'overduepick'])->middleware(Contropanellogin::class);
 Route::post('/overdue-picked-up',[LeadController::class,'overduepicked'])->middleware(Contropanellogin::class);
 Route::post('/today-picked-up',[LeadController::class,'todaypicked'])->middleware(Contropanellogin::class);

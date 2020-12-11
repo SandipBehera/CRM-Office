@@ -31,6 +31,7 @@ class LoginController extends Controller
                 $req->session()->put('username', $check->name);
                 $req->session()->put('Admin-Role',$check->user_type);
                 $req->session()->put('proflie_image',$check->emp_image);
+                $req->session()->put('profile_designation',$check->designation);
                 $req->session()->put('profile_id',$check->employee_id);
                 return redirect('/admin/dashboard');
             }
@@ -40,6 +41,7 @@ class LoginController extends Controller
                 $req->session()->put('Manager-Role',$check->user_type);
                 $req->session()->put('proflie_image',$check->emp_image);
                 $req->session()->put('profile_id',$check->employee_id);
+                $req->session()->put('profile_designation',$check->designation);
                 $req->session()->put('department_id',$check->department);
                 $req->session()->put('department',$department_name->Department_name);
                 return redirect('/crm-manager/dashboard');
@@ -48,6 +50,7 @@ class LoginController extends Controller
                 $req->session()->put('username', $check->name);
                 $req->session()->put('Employee-Role',$check->user_type);
                 $req->session()->put('proflie_image',$check->emp_image);
+                $req->session()->put('profile_designation',$check->designation);
                 $req->session()->put('profile_id',$check->employee_id);
                 $req->session()->put('permission',$check->permission);
 
@@ -96,7 +99,7 @@ class LoginController extends Controller
         $over_due_calls=Leads::where('leads_for','LIKE','%'.$req->session()->get('department').'%')->where('assigned_date','!=',date('Y-m-d'))->where(['status'=>'Assigned','status'=>'New'])->get();
         $dead_calls=Leads::where('leads_for','LIKE','%'.$req->session()->get('department').'%')->where('status','=','Dead')->get();
         $closed_calls=Leads::where('leads_for','LIKE','%'.$req->session()->get('department').'%')->where('status','=','Closed')->get();;
-        $employee_from_department=Employee::where('department','=',$req->session()->get('department_id'))->get();
+        $employee_from_department=Employee::where('department','=',$req->session()->get('department_id'))->where('user_type','=',2)->get();
 
         return view('manager-portal.dashboard')->with(compact('Assigned_leads','due_code_today','over_due_calls','dead_calls','active_leads','closed_calls','employee_from_department'));
 
