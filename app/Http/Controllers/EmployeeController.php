@@ -48,9 +48,14 @@ class EmployeeController extends Controller
         return response()->json($emp_by_dept);
     }
     public function employeebyproject(Request $req){
-        $emp_by_project=Leads::where('leads_for','LIKE','%'.$req->project_name.'%')->groupBy('asssigned_to')->pluck('asssigned_to');
-       // $emp_name=Employee::where('employee_id','=',$emp_by_project)->pluck('name','employee_id');
-        return response()->json($emp_by_project);
+        if($req->project_name==0){
+            $emp_by_project1=DB::table('emplyoee')->join('leads','emplyoee.employee_id','=','leads.asssigned_to')->groupBy('leads.asssigned_to')->pluck('emplyoee.name','emplyoee.employee_id');
+        }
+        else{
+        $emp_by_project1=DB::table('emplyoee')->join('leads','emplyoee.employee_id','=','leads.asssigned_to')->where('leads.leads_for','LIKE','%'.$req->project_name.'%')->groupBy('leads.asssigned_to')->pluck('emplyoee.name','emplyoee.employee_id');
+        }
+        return response()->json($emp_by_project1);
+
     }
     public function attendence(Request $req){
         if($req->isMethod('post')){

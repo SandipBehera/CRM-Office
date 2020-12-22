@@ -137,6 +137,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{url('/lead/website-lead')}}" >
+                                <i class="metismenu-icon"></i>website Leads
+                            </a>
+                        </li>
+                        <li>
                         <a href="{{url('/admin/leads-status')}}" >
                                 <i class="metismenu-icon"></i>Lead Status
                             </a>

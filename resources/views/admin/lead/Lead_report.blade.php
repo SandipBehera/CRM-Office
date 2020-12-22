@@ -33,13 +33,12 @@
                         </div>
                     @endif
                     <h5 class="card-title">Leads Report</h5>
-                        <form class="" method="post" action="{{url('/crm-employee/status-update-leads/')}}" enctype="multipart/form-data">
-                            {{ csrf_field() }}
+
                             <div class="form-row">
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail11" class="">Department Name</label>
-                                        <select name="dept_name" class=" form-control" >
+                                        <select name="dept_name" class=" form-control" id='dept_name' >
                                             <option value="0">All Department</option>
                                             @foreach ($department as $item)
                                             <option value="{{$item->id}}">{{$item->Department_name}}</option>
@@ -49,7 +48,8 @@
                                 </div>
                                 <div class="col-md-4" id="select_prop">
                                     <label for="exampleEmail11" class="">Proeprty Name</label>
-                                    <select name="dept_name" class=" form-control" id='dept_name'>
+                                    <select name="dept_name" class=" form-control" id="prop_name">
+                                        <option>Select Property</option>
                                         <option value="0">All Project</option>
                                         @foreach ($properties as $item_prop)
                                         <option value="{{$item_prop->property_name}}">{{$item_prop->property_name}}</option>
@@ -76,35 +76,79 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label for="exampleEmail11" class="">Lead Status</label>
+                                        <select name="lead_status" class=" form-control" id="lead_status">
+                                            <option value="new">New</option>
+                                            <option value="Inprocess">InProcess</option>
+                                            <option value="follow up">Folllow Ups</option>
+                                            <option value="site visit Initate">Site Visit Initiate</option>
+                                            <option value="site visit Done">Site Visit Done</option>
+                                            <option value="closed">Closed</option>
+                                            <option value="dead">Dead</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-4" id="lead_from_date" >
                                     <div class="position-relative form-group">
                                         <label for="exampleEmail11" class="">Lead From Date</label>
-                                        <input type="text" name="from_date" class="form-control" data-toggle="datepicker">
+                                        <input type="text" name="from_date" class="form-control" data-toggle="datepicker" id="from_date">
                                     </div>
                                 </div>
                                 <div class="col-md-4" id="lead_to_date">
                                     <div class="position-relative form-group">
                                     <label for="exampleEmail11" class="">Lead To Date</label>
-                                    <input type="text" class="form-control" name="to_date" data-toggle="datepicker" autocomplete="off">
+                                    <input type="text" class="form-control" name="to_date" data-toggle="datepicker" autocomplete="off" id="to_date">
                                     </div>
                                 </div>
                             </div>
                             <div class="from-row">
                                 <div class="col-md-12">
                                     <div class="center-align" style="padding-left: 40%;padding-right:40%">
-                                        <input type="submit" class="btn btn-primary" name="submit" value="Generate">
+                                        <input type="submit" class="btn btn-primary" name="submit" id="submit_data" value="Generate">
                                         <input type="reset" class="btn btn-danger" name="cancel" value="Cancel">
                                         </div>
                                 </div>
                             </div>
-                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script>
-$('#dept_name').c
-</script>
+<!--post lead reports data-->
+    <script>
+        $('#submit_data').click(function(){
+            var department=$('#dept_name').val();
+            var property_name=$('#prop_name').val();
+            var duration=$('#lead_duration').val();
+            var from_date=$('#from_date').val();
+            var to_date=$('#to_date').val();
+            var status=$('#lead_status').val();
+            var flag=true;
+            /**** validation end here ***/
+            /* if all values are fine then start posting the values into the backend file*/
+            if(flag){
+                $.ajax({
+                    type:'post',
 
+                    url:'/lead-report',
+                    dataType:'json',
+                    data:{
+                        "_token":"{{csrf_token()}}",
+                          "department":department,
+                          "property_name":property_name,
+                          "status":status,
+                          "duration":duration,
+                          "from_date":from_date,
+                          "to_date":to_date,
+                    },
+                    success:function(result){
+
+                    }
+                });
+            }
+        });
+        </script>
 @endsection

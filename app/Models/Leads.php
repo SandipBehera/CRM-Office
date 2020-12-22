@@ -17,4 +17,7 @@ class Leads extends Model
         'asssigned_to',
     ];
     use HasFactory;
+    public function employee(){
+        return $this->belongsToMany('App\Models\Employee');
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Middleware\Contropanellogin;
 use App\Http\Controllers\AminitiesController;
 use App\Http\Controllers\FrontentController;
 use App\Http\Controllers\TaskScheudler;
+use App\Http\Controllers\webquries;
 use Maatwebsite\Excel\Row;
 
 /*
@@ -42,8 +43,10 @@ Route::match(['get', 'post'], '/admin/amminites', [AminitiesController::class,'a
 Route::get('/admin/leads',[LeadController::class,'index'])->middleware(Contropanellogin::class);
 Route::match(['get', 'post'],'/admin/upload-leads',[LeadController::class,'uploadleads'])->middleware(Contropanellogin::class);
 Route::match(['get','post'],'/admin/leads-status',[LeadController::class,'leadsstatus'])->middleware(Contropanellogin::class);
-Route::match(['get','post'],'/admin/leads-report',[LeadController::class,'leadsreport'])->middleware(Contropanellogin::class);
+Route::get('/admin/leads-report',[LeadController::class,'leadsreport'])->middleware(Contropanellogin::class);
 Route::post('/assign-leads',[LeadController::class,'LeadAssign']);
+Route::post('/lead-report',[LeadController::class,'ReportGenerate']);
+Route::get('/lead/website-lead',[webquries::class,'index']);
 //admin-Employee Controller
 Route::match(['get', 'post'],'/admin/create-employee',[EmployeeController::class,'CreateEmployee'])->middleware(Contropanellogin::class);
 Route::get('/admin/all-employee',[EmployeeController::class,'ViewEmployee'])->middleware(Contropanellogin::class);

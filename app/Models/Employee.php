@@ -9,4 +9,7 @@ class Employee extends Model
 {
     protected $table='emplyoee';
     use HasFactory;
+    public function leads(){
+        return $this->belongsToMany('App\Models\Leads');
+    }
 }

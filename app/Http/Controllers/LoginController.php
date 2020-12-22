@@ -81,7 +81,7 @@ class LoginController extends Controller
     public function employeedashboard(Request $req){
 
         $Assigned_leads=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->count();
-        $due_code_today=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('assigned_date',date('Y-m-d'))->count();
+        $due_code_today=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('assigned_date','==',date('Y-m-d'))->where('status','==','NEW')->count();
         $over_due_calls=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('assigned_date','!=',date('Y-m-d'))->where(['status'=>'Assigned','status'=>'New'])->count();
         $dead_calls=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('status','=','Dead')->count();
         $assigned=Leads::where(['asssigned_to'=>$req->session()->get('profile_id')])->where('assigned_date',date('Y-m-d'))->get();

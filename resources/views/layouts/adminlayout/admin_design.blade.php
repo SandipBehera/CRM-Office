@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -448,9 +449,25 @@ $(document).on('click','#Assign_Employee',function(){
         });
     });
 </script>
-<!--Select Department -->
+<!-- department manupulation-->
 <script>
     $('#dept_name').change(function(){
+        if($(this).val()=='1' || $(this).val()=='3'){
+            $('#select_prop').hide();
+            $.ajax({
+                method:"post",
+                url:"/admin/employee_by_dept"
+            });
+        }
+        else{
+            $('#select_prop').show();
+        }
+        $("#dept_name").trigger("change");
+    });
+    </script>
+<!--Select Department -->
+<script>
+    $('#prop_name').change(function(){
         var dept_name=$(this).val();
         if(dept_name){
             $.ajax({
@@ -464,8 +481,9 @@ $(document).on('click','#Assign_Employee',function(){
                 success:function(res){
            if(res){
                $("#emp_name").empty();
-               $("#emp_name").append('<option value="0">All Employee</option>');
+               $("#emp_name").append('<option >Select Employees</option>');
                $.each(res,function(key,value){
+
                    $("#emp_name").append('<option value="'+key+'">'+value+'</option>');
                });
 

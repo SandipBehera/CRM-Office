@@ -165,9 +165,7 @@ public function Leadstatus(Request $req,$id){
     }
     //lead Report Generation
     public function leadsreport(Request $request){
-        if($request->isMethod('post')){
 
-        }
         $department=DB::table('departments')->get();
         $properties=Properties::get();
         return view('admin.lead.Lead_report')->with(compact('department','properties'));
@@ -209,5 +207,15 @@ public function Leadstatus(Request $req,$id){
         }
         session()->put('lead_status',$status);
         return view('manager-portal.lead_data.leads_status_data')->with(compact('fetch_lead_details'));
+    }
+    public function ReportGenerate(Request $req){
+        if(empty($req->from_date) && empty($req->to_date))
+        {
+            if($req->duration=='1'){
+                $report=Leads::where('leads_for','LIKE','%'.$req->department.'%')->where('leads_for','LIKE','%'.$req->property_name.'%')->where(['status'=>$req->status])->get();
+
+            }
+        }
+        return response()->json();
     }
 }
